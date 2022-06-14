@@ -4,17 +4,18 @@
  */
 package org.kelompokayam.tugas.model;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  *
  * @author raz
  */
-public class Karyawan extends User implements Serializable {
+public class Auth {
+    private User user;
 
-    public Karyawan() {
-        setRole("karyawan");
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

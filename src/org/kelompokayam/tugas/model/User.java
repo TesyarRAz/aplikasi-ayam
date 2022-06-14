@@ -14,9 +14,12 @@ import org.kelompokayam.tugas.util.TableToolModel;
  * @author raz
  */
 public class User implements TableToolModel, Serializable {
+    public static String FILE_NAME = "auth.dat";
+    
     private String name;
     private String username;
     private String password;
+    private String role;
 
     public String getName() {
         return name;
@@ -42,9 +45,20 @@ public class User implements TableToolModel, Serializable {
         this.password = password;
     }    
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public Map<String, Object> toTableModel() {
         Map<String, Object> map = new HashMap<>();
+        
+        map.put("Nama", getName());
+        map.put("Username", getUsername());
         
         return map;
     }

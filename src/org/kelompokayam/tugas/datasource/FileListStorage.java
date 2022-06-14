@@ -27,4 +27,12 @@ public class FileListStorage<T> extends FileStorage<List<T>> {
         
         return write(fileData);
     }
+    
+    public boolean remove(int index) throws Exception {
+        FileData<List<T>> fileData = read();
+        
+        fileData.getData().remove(index);
+        
+        return write(fileData);
+    }
 }

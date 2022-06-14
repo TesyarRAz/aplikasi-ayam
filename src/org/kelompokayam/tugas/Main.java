@@ -7,6 +7,9 @@ package org.kelompokayam.tugas;
 import java.util.Arrays;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import org.kelompokayam.tugas.controller.HomeController;
+import org.kelompokayam.tugas.controller.LoginController;
+import org.kelompokayam.tugas.seeder.UserSeeder;
 import org.kelompokayam.tugas.view.HomeView;
 import org.kelompokayam.tugas.view.KelolaKaryawanView;
 import org.kelompokayam.tugas.view.SplashView;
@@ -31,6 +34,12 @@ public class Main {
                 break;
             }
         }
+        
+        Injection.Put(new UserSeeder()).call();
+        
+        Injection.Put(new LoginController());
+        Injection.Put(new HomeController());
+        Injection.LazyPut(KelolaKaryawanView.class, () -> new KelolaKaryawanView());
         
         new SplashView().setVisible(true);
     }
