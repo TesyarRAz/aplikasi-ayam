@@ -11,10 +11,8 @@ import java.util.function.Function;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import org.kelompokayam.tugas.datasource.FileData;
 import org.kelompokayam.tugas.datasource.FileListStorage;
-import org.kelompokayam.tugas.datasource.FileStorage;
 
 /**
  *
