@@ -7,7 +7,10 @@ package org.kelompokayam.tugas.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +25,8 @@ import org.kelompokayam.tugas.datasource.FileListStorage;
 public class TableTool<T extends TableToolModel> {
     private JTable table;
     private FileListStorage<T> fileStorage;
-    private List<Function<T, Boolean>> filters;
+    private List<Predicate<T>> filters;
+    private List<Consumer<List<T>>> afterLoads;
     
     public JTable getTable() {
         return table;
@@ -58,17 +62,25 @@ public class TableTool<T extends TableToolModel> {
                 
                 tableToolMap.keySet().forEach(tableModel::addColumn);
                 
-                data.forEach((model) -> {
+                List<T> filteredData = data.stream().filter(model -> {
                     if (filters != null && !filters.isEmpty()) {
-                        filters.forEach(filter -> {
-                            if (filter.apply(model)) {
-                                tableModel.addRow(model.toTableModel().values().toArray());
+                        for (Predicate<T> filter : filters) {
+                            if (!filter.test(model)) {
+                                return false;
                             }
-                        });
-                    } else {
-                        tableModel.addRow(model.toTableModel().values().toArray());
+                        }
                     }
+                    
+                    return true;
+                }).collect(Collectors.toList());
+                
+                filteredData.forEach((model) -> {
+                    tableModel.addRow(model.toTableModel().values().toArray());
                 });
+                
+                if (afterLoads != null && !afterLoads.isEmpty()) {
+                    afterLoads.forEach(e -> e.accept(filteredData));
+                }
                 
                 table.setModel(tableModel);
             }
@@ -80,12 +92,35 @@ public class TableTool<T extends TableToolModel> {
         return false;
     }
 
-    
-    public void addFilter(Function<T, Boolean> filter) {
+    public void addFilter(Predicate<T> filter) {
         if (filters == null) {
             filters = new ArrayList<>();
         }
         
         filters.add(filter);
+    }
+    
+    public void addAfterLoad(Consumer<List<T>> runner) {
+        if (afterLoads == null) {
+            afterLoads = new ArrayList<>();
+        }
+        
+        afterLoads.add(runner);
+    }
+
+    public List<Predicate<T>> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<Predicate<T>> filters) {
+        this.filters = filters;
+    }
+
+    public List<Consumer<List<T>>> getAfterLoads() {
+        return afterLoads;
+    }
+
+    public void setAfterLoads(List<Consumer<List<T>>> afterLoads) {
+        this.afterLoads = afterLoads;
     }
 }

@@ -86,7 +86,7 @@ public class HomeView extends javax.swing.JFrame {
         container = new javax.swing.JPanel();
         kelolaKaryawanView1 = new org.kelompokayam.tugas.view.KelolaKaryawanView();
         inputAyamView2 = new org.kelompokayam.tugas.view.InputAyamView();
-        laporanAyamView1 = new org.kelompokayam.tugas.view.LaporanAyamView();
+        laporanAyamView2 = new org.kelompokayam.tugas.view.LaporanAyamView();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Aplikasi Peternakan Ayam");
@@ -357,19 +357,7 @@ public class HomeView extends javax.swing.JFrame {
         container.setLayout(new java.awt.CardLayout());
         container.add(kelolaKaryawanView1, "kelola-karyawan");
         container.add(inputAyamView2, "input-ayam");
-
-        javax.swing.GroupLayout laporanAyamView1Layout = new javax.swing.GroupLayout(laporanAyamView1);
-        laporanAyamView1.setLayout(laporanAyamView1Layout);
-        laporanAyamView1Layout.setHorizontalGroup(
-            laporanAyamView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 932, Short.MAX_VALUE)
-        );
-        laporanAyamView1Layout.setVerticalGroup(
-            laporanAyamView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 663, Short.MAX_VALUE)
-        );
-
-        container.add(laporanAyamView1, "laporan-ayam");
+        container.add(laporanAyamView2, "laporan-ayam");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -420,6 +408,8 @@ public class HomeView extends javax.swing.JFrame {
         triggerSideButtons(btnLaporanAyam);
         
         changePage("laporan-ayam");
+        
+        kelolaKaryawanView1.reload();
     }//GEN-LAST:event_btnLaporanAyamMouseClicked
 
     private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
@@ -467,7 +457,7 @@ public class HomeView extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private org.kelompokayam.tugas.view.KelolaKaryawanView kelolaKaryawanView1;
-    private org.kelompokayam.tugas.view.LaporanAyamView laporanAyamView1;
+    private org.kelompokayam.tugas.view.LaporanAyamView laporanAyamView2;
     private javax.swing.JLabel lblInputAyam;
     private javax.swing.JLabel lblKelolaKaryawan;
     private javax.swing.JLabel lblLaporanAyam;

@@ -6,7 +6,9 @@ package org.kelompokayam.tugas.controller;
 
 import java.time.LocalDate;
 import java.util.function.Predicate;
+import org.kelompokayam.tugas.Injection;
 import org.kelompokayam.tugas.datasource.FileListStorage;
+import org.kelompokayam.tugas.model.Auth;
 import org.kelompokayam.tugas.model.StatusAyam;
 import org.kelompokayam.tugas.model.User;
 import org.kelompokayam.tugas.util.FileUtil;
@@ -17,21 +19,27 @@ import org.kelompokayam.tugas.util.FileUtil;
  */
 public class InputAyamController {
     private final FileListStorage<StatusAyam> fileStorage = new FileListStorage<>();
-
+    
     public InputAyamController() {
-        fileStorage.setFile(FileUtil.getFileByCurrentDir("ayam.dat"));
+        fileStorage.setFile(FileUtil.getFileByCurrentDir(StatusAyam.FILE_NAME));
     }
     
-    public boolean simpan(LocalDate date, int sehat, int sakit, int mati) throws Exception {
+    public boolean simpan(LocalDate date, int sehat, int sakit, int mati, int baru) throws Exception {
         StatusAyam statusAyam = new StatusAyam();
         statusAyam.setTanggal(date);
         statusAyam.setTotalSehat(sehat);
         statusAyam.setTotalSakit(sakit);
         statusAyam.setTotalMati(mati);
+        statusAyam.setTotalBaru(baru);
         
         Predicate<StatusAyam> filter = (status) -> status.getTanggal().isEqual(date);
         
         if (fileStorage.find(filter) != null) {
+            Auth auth = Injection.Get(Auth.class);
+            if (auth != null && !auth.getUser().getRole().equalsIgnoreCase("admin")) {
+                return false;
+            }
+            
             return fileStorage.update(statusAyam, filter);
         }
         

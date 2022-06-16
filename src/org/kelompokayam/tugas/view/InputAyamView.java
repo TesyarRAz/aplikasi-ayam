@@ -19,7 +19,7 @@ import org.kelompokayam.tugas.model.StatusAyam;
  * @author raz
  */
 public class InputAyamView extends javax.swing.JPanel {
-    InputAyamController controller = Injection.Get(InputAyamController.class);
+    private final InputAyamController controller = Injection.Get(InputAyamController.class);
 
     /**
      * Creates new form InputAyamView
@@ -67,6 +67,9 @@ public class InputAyamView extends javax.swing.JPanel {
         jPanel5 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         txtMati = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        txtBaru = new javax.swing.JTextField();
         btnSimpan = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -160,7 +163,7 @@ public class InputAyamView extends javax.swing.JPanel {
                         .addComponent(cBulan, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cTahun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(btnSimpan1)
                 .addContainerGap())
         );
@@ -280,6 +283,40 @@ public class InputAyamView extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel14.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("Jumlah Baru");
+
+        txtBaru.setBackground(new java.awt.Color(255, 255, 255));
+        txtBaru.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        txtBaru.setForeground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtBaru))
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtBaru, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -290,7 +327,8 @@ public class InputAyamView extends javax.swing.JPanel {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -304,7 +342,9 @@ public class InputAyamView extends javax.swing.JPanel {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(150, Short.MAX_VALUE))
         );
 
         btnSimpan.setBackground(new java.awt.Color(82, 79, 218));
@@ -345,21 +385,23 @@ public class InputAyamView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        int jumlahSehat = Integer.parseInt(txtSehat.getText().trim());
-        int jumlahSakit = Integer.parseInt(txtSakit.getText().trim());
-        int jumlahMati = Integer.parseInt(txtMati.getText().trim());
-        
         try {
+            int jumlahSehat = Integer.parseInt(txtSehat.getText().trim());
+            int jumlahSakit = Integer.parseInt(txtSakit.getText().trim());
+            int jumlahMati = Integer.parseInt(txtMati.getText().trim());
+            int jumlahBaru = Integer.parseInt(txtBaru.getText().trim());
+
             LocalDate date = getDate();
             
-            if (controller.simpan(date, jumlahSehat, jumlahSakit, jumlahMati)) {
-                txtMati.setText("");
-                txtSakit.setText("");
-                txtSehat.setText("");
+            if (controller.simpan(date, jumlahSehat, jumlahSakit, jumlahMati, jumlahBaru)) {
+                txtMati.setText("0");
+                txtSakit.setText("0");
+                txtSehat.setText("0");
+                txtBaru.setText("0");
                 
                 JOptionPane.showMessageDialog(this, "Berhasil menyimpan data");
             } else {
-                JOptionPane.showMessageDialog(this, "Tidak Bisa menyimpan data");
+                JOptionPane.showMessageDialog(this, "Tidak Bisa menyimpan data atau cek menggunakan akun admin");
             }
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
@@ -416,9 +458,10 @@ public class InputAyamView extends javax.swing.JPanel {
                 txtSehat.setText(String.valueOf(statusAyam.getTotalSehat()));
                 txtSakit.setText(String.valueOf(statusAyam.getTotalSakit()));
                 txtMati.setText(String.valueOf(statusAyam.getTotalMati()));
+                txtBaru.setText(String.valueOf(statusAyam.getTotalBaru()));
             }
         } catch (Exception ex) {
-//            ex.printStackTrace(System.err);
+            ex.printStackTrace(System.err);
         }
     }
     
@@ -440,6 +483,7 @@ public class InputAyamView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -447,7 +491,9 @@ public class InputAyamView extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JTextField txtBaru;
     private javax.swing.JTextField txtMati;
     private javax.swing.JTextField txtSakit;
     private javax.swing.JTextField txtSehat;

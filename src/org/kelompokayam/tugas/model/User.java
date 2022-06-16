@@ -14,6 +14,8 @@ import org.kelompokayam.tugas.util.TableToolModel;
  * @author raz
  */
 public class User implements TableToolModel, Serializable {
+    private static final long serialVersionUID = 1L;
+    
     public static String FILE_NAME = "auth.dat";
     
     private String name;

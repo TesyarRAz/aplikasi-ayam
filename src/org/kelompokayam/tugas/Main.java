@@ -9,6 +9,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.kelompokayam.tugas.controller.HomeController;
 import org.kelompokayam.tugas.controller.InputAyamController;
 import org.kelompokayam.tugas.controller.KelolaKaryawanController;
+import org.kelompokayam.tugas.controller.LaporanAyamController;
 import org.kelompokayam.tugas.controller.LoginController;
 import org.kelompokayam.tugas.seeder.UserSeeder;
 import org.kelompokayam.tugas.view.KelolaKaryawanView;
@@ -43,6 +44,7 @@ public class Main {
         Injection.Put(new HomeController());
         Injection.LazyPut(KelolaKaryawanController.class, () -> new KelolaKaryawanController());
         Injection.LazyPut(InputAyamController.class, () -> new InputAyamController());
+        Injection.LazyPut(LaporanAyamController.class, () -> new LaporanAyamController());
         
         new SplashView().setVisible(true);
     }

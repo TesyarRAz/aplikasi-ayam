@@ -13,7 +13,7 @@ import org.kelompokayam.tugas.controller.KelolaKaryawanController;
  * @author raz
  */
 public class KelolaKaryawanView extends javax.swing.JPanel {
-    final KelolaKaryawanController controller = Injection.Get(KelolaKaryawanController.class);
+    private final KelolaKaryawanController controller = Injection.Get(KelolaKaryawanController.class);
 
     /**
      * Creates new form KelolaAyamView
@@ -21,8 +21,10 @@ public class KelolaKaryawanView extends javax.swing.JPanel {
     public KelolaKaryawanView() {
         initComponents();
         
-        controller.getTableTool().setTable(table);
-        controller.getTableTool().load();
+        if (controller != null) {
+            controller.getTableTool().setTable(table);
+            controller.getTableTool().load();
+        }
     }
 
     /**
@@ -406,9 +408,12 @@ public class KelolaKaryawanView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
-        controller.getTableTool().load();
+        reload();
     }//GEN-LAST:event_btnReloadActionPerformed
 
+    public void reload() {
+        controller.getTableTool().load();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHapus;
