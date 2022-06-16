@@ -30,8 +30,15 @@ public class Injection {
     }
     
     public static <T> T LazyPut(Class<? extends T> clazz, Supplier<T> builder) {
-        return (T) Put(clazz, (Supplier<T>)() -> {
-            return Put(clazz, builder.get());
+        return LazyPut(clazz.getName(), builder);
+    }
+    
+    public static <T> T LazyPut(String type, Supplier<T> builder) {
+        return (T) injections.put(type, (Supplier<T>)() -> {
+            T object = builder.get();
+            injections.put(type, () -> object);
+            
+            return object;
         });
     }
     
@@ -40,6 +47,8 @@ public class Injection {
     }
     
     public static <T> T Create(String type, Supplier<T> builder) {
+        if (!injections.containsKey(type)) return null;
+        
         return (T) injections.put(type, builder);
     }
     
@@ -48,6 +57,8 @@ public class Injection {
     }
     
     public static <T> T Get(String type) {
+        if (!injections.containsKey(type)) return null;
+        
         return (T) injections.get(type).get();
     }
     

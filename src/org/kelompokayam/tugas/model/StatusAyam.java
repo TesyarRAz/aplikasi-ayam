@@ -5,6 +5,7 @@
 package org.kelompokayam.tugas.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import org.kelompokayam.tugas.util.TableToolModel;
@@ -14,16 +15,16 @@ import org.kelompokayam.tugas.util.TableToolModel;
  * @author raz
  */
 public class StatusAyam implements TableToolModel, Serializable {
-    private String tanggal;
+    private LocalDate tanggal;
     private int totalSehat;
     private int totalSakit;
     private int totalMati;
 
-    public String getTanggal() {
+    public LocalDate getTanggal() {
         return tanggal;
     }
 
-    public void setTanggal(String tanggal) {
+    public void setTanggal(LocalDate tanggal) {
         this.tanggal = tanggal;
     }
 

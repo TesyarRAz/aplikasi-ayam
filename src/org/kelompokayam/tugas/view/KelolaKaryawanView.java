@@ -5,6 +5,7 @@
 package org.kelompokayam.tugas.view;
 
 import javax.swing.JOptionPane;
+import org.kelompokayam.tugas.Injection;
 import org.kelompokayam.tugas.controller.KelolaKaryawanController;
 
 /**
@@ -12,7 +13,7 @@ import org.kelompokayam.tugas.controller.KelolaKaryawanController;
  * @author raz
  */
 public class KelolaKaryawanView extends javax.swing.JPanel {
-    final KelolaKaryawanController controller = new KelolaKaryawanController();
+    final KelolaKaryawanController controller = Injection.Get(KelolaKaryawanController.class);
 
     /**
      * Creates new form KelolaAyamView

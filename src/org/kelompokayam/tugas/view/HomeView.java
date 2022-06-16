@@ -22,6 +22,7 @@ import org.kelompokayam.tugas.model.Auth;
  * @author raz
  */
 public class HomeView extends javax.swing.JFrame {
+    private Auth auth = Injection.Get(Auth.class);
     private HomeController controller = Injection.Get(HomeController.class);
     private Map<JPanel, JLabel> sideButtons = new HashMap<>();
 
@@ -38,13 +39,17 @@ public class HomeView extends javax.swing.JFrame {
         
         setLocationRelativeTo(null);
         
-        triggerSideButtons(btnKelolaKaryawan);
-        changePage("kelola-karyawan");
-        
-        Auth auth = Injection.Get(Auth.class);
-        
         if (auth != null) {
             lblProfile.setText("Halo, " + auth.getUser().getName());
+            
+            if (auth.getUser().getRole().equalsIgnoreCase("admin")) {
+                triggerSideButtons(btnKelolaKaryawan);
+                changePage("kelola-karyawan");
+            } else {
+                sidebarList.remove(btnKelolaKaryawan.getParent());
+                triggerSideButtons(btnInputAyam);
+                changePage("input-ayam");
+            }
         }
     }
 
@@ -66,17 +71,21 @@ public class HomeView extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         jPanel4 = new javax.swing.JPanel();
         lblProfile = new javax.swing.JLabel();
+        sidebarList = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
         btnKelolaKaryawan = new javax.swing.JPanel();
         lblKelolaKaryawan = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
         btnInputAyam = new javax.swing.JPanel();
         lblInputAyam = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
         btnLaporanAyam = new javax.swing.JPanel();
         lblLaporanAyam = new javax.swing.JLabel();
         btnLogout = new javax.swing.JPanel();
         lblLogout = new javax.swing.JLabel();
         container = new javax.swing.JPanel();
         kelolaKaryawanView1 = new org.kelompokayam.tugas.view.KelolaKaryawanView();
-        inputAyamView1 = new org.kelompokayam.tugas.view.InputAyamView();
+        inputAyamView2 = new org.kelompokayam.tugas.view.InputAyamView();
         laporanAyamView1 = new org.kelompokayam.tugas.view.LaporanAyamView();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -125,6 +134,11 @@ public class HomeView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        sidebarList.setBackground(new java.awt.Color(82, 79, 218));
+        sidebarList.setLayout(new javax.swing.BoxLayout(sidebarList, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel5.setBackground(new java.awt.Color(82, 79, 218));
+
         btnKelolaKaryawan.setBackground(new java.awt.Color(82, 79, 218));
         btnKelolaKaryawan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
         btnKelolaKaryawan.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -142,12 +156,33 @@ public class HomeView extends javax.swing.JFrame {
         btnKelolaKaryawan.setLayout(btnKelolaKaryawanLayout);
         btnKelolaKaryawanLayout.setHorizontalGroup(
             btnKelolaKaryawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblKelolaKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+            .addComponent(lblKelolaKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
         );
         btnKelolaKaryawanLayout.setVerticalGroup(
             btnKelolaKaryawanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblKelolaKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
         );
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnKelolaKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnKelolaKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        sidebarList.add(jPanel5);
+
+        jPanel7.setBackground(new java.awt.Color(82, 79, 218));
 
         btnInputAyam.setBackground(new java.awt.Color(82, 79, 218));
         btnInputAyam.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
@@ -173,6 +208,27 @@ public class HomeView extends javax.swing.JFrame {
             .addComponent(lblInputAyam, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
         );
 
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnInputAyam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnInputAyam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        sidebarList.add(jPanel7);
+
+        jPanel6.setBackground(new java.awt.Color(82, 79, 218));
+
         btnLaporanAyam.setBackground(new java.awt.Color(82, 79, 218));
         btnLaporanAyam.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
         btnLaporanAyam.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -190,12 +246,31 @@ public class HomeView extends javax.swing.JFrame {
         btnLaporanAyam.setLayout(btnLaporanAyamLayout);
         btnLaporanAyamLayout.setHorizontalGroup(
             btnLaporanAyamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblLaporanAyam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblLaporanAyam, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
         );
         btnLaporanAyamLayout.setVerticalGroup(
             btnLaporanAyamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblLaporanAyam, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
         );
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnLaporanAyam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnLaporanAyam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        sidebarList.add(jPanel6);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -207,13 +282,11 @@ public class HomeView extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnKelolaKaryawan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnInputAyam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnLaporanAyam, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(sidebarList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -230,11 +303,7 @@ public class HomeView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnKelolaKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnInputAyam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnLaporanAyam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sidebarList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -287,25 +356,13 @@ public class HomeView extends javax.swing.JFrame {
 
         container.setLayout(new java.awt.CardLayout());
         container.add(kelolaKaryawanView1, "kelola-karyawan");
-
-        javax.swing.GroupLayout inputAyamView1Layout = new javax.swing.GroupLayout(inputAyamView1);
-        inputAyamView1.setLayout(inputAyamView1Layout);
-        inputAyamView1Layout.setHorizontalGroup(
-            inputAyamView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 614, Short.MAX_VALUE)
-        );
-        inputAyamView1Layout.setVerticalGroup(
-            inputAyamView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 663, Short.MAX_VALUE)
-        );
-
-        container.add(inputAyamView1, "input-ayam");
+        container.add(inputAyamView2, "input-ayam");
 
         javax.swing.GroupLayout laporanAyamView1Layout = new javax.swing.GroupLayout(laporanAyamView1);
         laporanAyamView1.setLayout(laporanAyamView1Layout);
         laporanAyamView1Layout.setHorizontalGroup(
             laporanAyamView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 614, Short.MAX_VALUE)
+            .addGap(0, 932, Short.MAX_VALUE)
         );
         laporanAyamView1Layout.setVerticalGroup(
             laporanAyamView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,7 +376,6 @@ public class HomeView extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -327,12 +383,11 @@ public class HomeView extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE))
+                .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -399,13 +454,16 @@ public class HomeView extends javax.swing.JFrame {
     private javax.swing.JPanel btnLaporanAyam;
     private javax.swing.JPanel btnLogout;
     private javax.swing.JPanel container;
-    private org.kelompokayam.tugas.view.InputAyamView inputAyamView1;
+    private org.kelompokayam.tugas.view.InputAyamView inputAyamView2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private org.kelompokayam.tugas.view.KelolaKaryawanView kelolaKaryawanView1;
@@ -415,5 +473,6 @@ public class HomeView extends javax.swing.JFrame {
     private javax.swing.JLabel lblLaporanAyam;
     private javax.swing.JLabel lblLogout;
     private javax.swing.JLabel lblProfile;
+    private javax.swing.JPanel sidebarList;
     // End of variables declaration//GEN-END:variables
 }

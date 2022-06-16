@@ -4,17 +4,39 @@
  */
 package org.kelompokayam.tugas.view;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
+import java.util.Arrays;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import org.kelompokayam.tugas.Injection;
+import org.kelompokayam.tugas.controller.InputAyamController;
+import org.kelompokayam.tugas.model.StatusAyam;
+
 /**
  *
  * @author raz
  */
 public class InputAyamView extends javax.swing.JPanel {
+    InputAyamController controller = Injection.Get(InputAyamController.class);
 
     /**
      * Creates new form InputAyamView
      */
     public InputAyamView() {
         initComponents();
+        
+        LocalDate date = LocalDate.now();
+        
+        DefaultComboBoxModel cTahunModel = (DefaultComboBoxModel) cTahun.getModel();
+        for (int i=date.getYear() - 10; i<date.getYear() + 10; i++)
+            cTahunModel.addElement(i);
+        
+        DefaultComboBoxModel cBulanModel = (DefaultComboBoxModel) cBulan.getModel();
+        Arrays.asList("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember").forEach(cBulanModel::addElement);
+        
+        changeDate(date);
     }
 
     /**
@@ -35,6 +57,7 @@ public class InputAyamView extends javax.swing.JPanel {
         cTanggal = new javax.swing.JComboBox<>();
         cBulan = new javax.swing.JComboBox<>();
         cTahun = new javax.swing.JComboBox<>();
+        btnSimpan1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         txtSehat = new javax.swing.JTextField();
@@ -105,8 +128,23 @@ public class InputAyamView extends javax.swing.JPanel {
         cTanggal.setBackground(new java.awt.Color(255, 255, 255));
 
         cBulan.setBackground(new java.awt.Color(255, 255, 255));
+        cBulan.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cBulanItemStateChanged(evt);
+            }
+        });
 
         cTahun.setBackground(new java.awt.Color(255, 255, 255));
+
+        btnSimpan1.setBackground(new java.awt.Color(255, 255, 255));
+        btnSimpan1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        btnSimpan1.setForeground(new java.awt.Color(82, 79, 218));
+        btnSimpan1.setText("Cari Data");
+        btnSimpan1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpan1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -122,7 +160,9 @@ public class InputAyamView extends javax.swing.JPanel {
                         .addComponent(cBulan, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cTahun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSimpan1)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,8 +173,9 @@ public class InputAyamView extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cBulan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cTahun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(cTahun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSimpan1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -304,12 +345,94 @@ public class InputAyamView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        int jumlahSehat = Integer.parseInt(txtSehat.getText().trim());
+        int jumlahSakit = Integer.parseInt(txtSakit.getText().trim());
+        int jumlahMati = Integer.parseInt(txtMati.getText().trim());
         
+        try {
+            LocalDate date = getDate();
+            
+            if (controller.simpan(date, jumlahSehat, jumlahSakit, jumlahMati)) {
+                txtMati.setText("");
+                txtSakit.setText("");
+                txtSehat.setText("");
+                
+                JOptionPane.showMessageDialog(this, "Berhasil menyimpan data");
+            } else {
+                JOptionPane.showMessageDialog(this, "Tidak Bisa menyimpan data");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(this, "Tidak Bisa menyimpan data");
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
+    private void cBulanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cBulanItemStateChanged
+        DefaultComboBoxModel cTanggalModel = (DefaultComboBoxModel) cTanggal.getModel();
+        
+        Object oldSelected = cTanggalModel.getSelectedItem();
+        cTanggalModel.removeAllElements();
+        
+        Month month = Month.of(cBulan.getSelectedIndex() + 1);
+        long tahun = Long.parseLong(String.valueOf(cTahun.getSelectedItem()));
+        
+        // Mengecek apakah tahun kabisat
+        int maxHari = month.length(Year.isLeap(tahun));
+        
+        for (int i=1; i<=maxHari; i++)
+            cTanggalModel.addElement(i);
+        
+        if (oldSelected != null && maxHari > (int) oldSelected) {
+            cTanggalModel.setSelectedItem(oldSelected);
+        } else {
+            cTanggalModel.setSelectedItem(maxHari);
+        }
+    }//GEN-LAST:event_cBulanItemStateChanged
+
+    private void btnSimpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpan1ActionPerformed
+        cariStatus();
+    }//GEN-LAST:event_btnSimpan1ActionPerformed
+
+    private void changeDate(LocalDate date) {
+        DefaultComboBoxModel cTanggalModel = (DefaultComboBoxModel) cTanggal.getModel();
+        cTanggalModel.removeAllElements();
+        
+        for (int i=1; i<=date.withDayOfMonth(date.getMonth().length(date.isLeapYear())).getDayOfMonth(); i++)
+            cTanggalModel.addElement(i);
+        
+        cTanggal.setSelectedItem(date.getDayOfMonth());
+        cBulan.setSelectedIndex(date.getMonthValue() - 1);
+        cTahun.setSelectedItem(date.getYear());
+    }
+    
+    private void cariStatus() {
+        try {
+            LocalDate date = getDate();
+            StatusAyam statusAyam = controller.cari(date);
+            
+            if (statusAyam != null) {
+                changeDate(statusAyam.getTanggal());
+                
+                txtSehat.setText(String.valueOf(statusAyam.getTotalSehat()));
+                txtSakit.setText(String.valueOf(statusAyam.getTotalSakit()));
+                txtMati.setText(String.valueOf(statusAyam.getTotalMati()));
+            }
+        } catch (Exception ex) {
+//            ex.printStackTrace(System.err);
+        }
+    }
+    
+    private LocalDate getDate() throws Exception {
+        int tanggal = (int) cTanggal.getSelectedItem();
+        int bulan = cBulan.getSelectedIndex() + 1;
+        int tahun = (int) cTahun.getSelectedItem();
+        
+        return LocalDate.of(tahun, bulan, tanggal);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSimpan;
+    private javax.swing.JButton btnSimpan1;
     private javax.swing.JComboBox<String> cBulan;
     private javax.swing.JComboBox<String> cTahun;
     private javax.swing.JComboBox<String> cTanggal;
