@@ -4,7 +4,7 @@
  */
 package org.kelompokayam.tugas.controller;
 
-import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import org.kelompokayam.tugas.datasource.FileListStorage;
 import org.kelompokayam.tugas.model.Karyawan;
 import org.kelompokayam.tugas.model.User;
@@ -23,9 +23,11 @@ public class KelolaKaryawanController {
     public KelolaKaryawanController() {
         fileStorage.setFile(FileUtil.getFileByCurrentDir(User.FILE_NAME));
         
+        tableTool.setHeaders(Arrays.asList("Nama", "Username", "Jadwal"));
         tableTool.addFilter((model) -> {
             return !model.getRole().equalsIgnoreCase("admin");
         });
+        
         tableTool.setFileStorage(fileStorage);
     }
 
@@ -37,11 +39,16 @@ public class KelolaKaryawanController {
         return tableTool;
     }
     
-    public boolean tambah(String nama, String username, String password) throws Exception {
+    public boolean isExistsUsername(String username) throws Exception {
+        return fileStorage.find(user -> user.getUsername().equalsIgnoreCase(username)) != null;
+    }
+    
+    public boolean tambah(String nama, String username, String password, String jadwal) throws Exception {
         Karyawan karyawan = new Karyawan();
         karyawan.setName(nama);
         karyawan.setUsername(username);
         karyawan.setPassword(CryptUtil.DefaultHash(password));
+        karyawan.setJadwal(jadwal);
         
         return fileStorage.add(karyawan);
     }

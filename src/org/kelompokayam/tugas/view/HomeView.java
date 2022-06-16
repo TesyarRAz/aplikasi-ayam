@@ -8,10 +8,12 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.kelompokayam.tugas.Injection;
 import org.kelompokayam.tugas.model.Auth;
+import org.kelompokayam.tugas.model.Karyawan;
 
 /**
  *
@@ -33,15 +35,20 @@ public class HomeView extends javax.swing.JFrame {
         sideButtons.put(btnLogout, lblLogout);
         
         setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         if (auth != null) {
             lblProfile.setText("Halo, " + auth.getUser().getName());
             
             if (auth.getUser().getRole().equalsIgnoreCase("admin")) {
+                lblJadwal.setVisible(false);
                 triggerSideButtons(btnKelolaKaryawan);
                 changePage("kelola-karyawan");
             } else {
+                Karyawan karyawan = (Karyawan) auth.getUser();
+                
                 sidebarList.remove(btnKelolaKaryawan.getParent());
+                lblJadwal.setText("Jadwal Piket Anda : " + karyawan.getJadwal());
                 triggerSideButtons(btnInputAyam);
                 changePage("input-ayam");
             }
@@ -66,6 +73,7 @@ public class HomeView extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         jPanel4 = new javax.swing.JPanel();
         lblProfile = new javax.swing.JLabel();
+        lblJadwal = new javax.swing.JLabel();
         sidebarList = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         btnKelolaKaryawan = new javax.swing.JPanel();
@@ -111,6 +119,17 @@ public class HomeView extends javax.swing.JFrame {
         lblProfile.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
         lblProfile.setForeground(new java.awt.Color(255, 255, 255));
         lblProfile.setText("Halo, User");
+        lblProfile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblProfile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblProfileMouseClicked(evt);
+            }
+        });
+
+        lblJadwal.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        lblJadwal.setForeground(new java.awt.Color(255, 255, 255));
+        lblJadwal.setText("Jadwal Piket Anda");
+        lblJadwal.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -118,7 +137,9 @@ public class HomeView extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblProfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblProfile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblJadwal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -126,6 +147,8 @@ public class HomeView extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblProfile)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblJadwal)
                 .addContainerGap())
         );
 
@@ -368,7 +391,7 @@ public class HomeView extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+                .addComponent(container, javax.swing.GroupLayout.PREFERRED_SIZE, 663, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -415,6 +438,10 @@ public class HomeView extends javax.swing.JFrame {
         new LoginView().setVisible(true);
     }//GEN-LAST:event_btnLogoutMouseClicked
 
+    private void lblProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProfileMouseClicked
+        new ChangePasswordView().setVisible(true);
+    }//GEN-LAST:event_lblProfileMouseClicked
+
     private void triggerSideButtons(JPanel panel) {
         sideButtons.forEach((key, value) -> {
             if (key == panel) {
@@ -454,6 +481,7 @@ public class HomeView extends javax.swing.JFrame {
     private org.kelompokayam.tugas.view.KelolaKaryawanView kelolaKaryawanView1;
     private org.kelompokayam.tugas.view.LaporanAyamView laporanAyamView2;
     private javax.swing.JLabel lblInputAyam;
+    private javax.swing.JLabel lblJadwal;
     private javax.swing.JLabel lblKelolaKaryawan;
     private javax.swing.JLabel lblLaporanAyam;
     private javax.swing.JLabel lblLogout;

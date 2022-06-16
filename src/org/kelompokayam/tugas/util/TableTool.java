@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
@@ -27,6 +26,7 @@ public class TableTool<T extends TableToolModel> {
     private FileListStorage<T> fileStorage;
     private List<Predicate<T>> filters;
     private List<Consumer<List<T>>> afterLoads;
+    private List<String> headers;
     
     public JTable getTable() {
         return table;
@@ -50,18 +50,14 @@ public class TableTool<T extends TableToolModel> {
             
             List<T> data = fileData.getData();
             
+            DefaultTableModel tableModel = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int i, int i1) {
+                    return false;
+                }
+            };
+            
             if (data != null && !data.isEmpty()) {
-                DefaultTableModel tableModel = new DefaultTableModel() {
-                    @Override
-                    public boolean isCellEditable(int i, int i1) {
-                        return false;
-                    }
-                };
-                
-                Map<String, Object> tableToolMap = data.get(0).toTableModel();
-                
-                tableToolMap.keySet().forEach(tableModel::addColumn);
-                
                 List<T> filteredData = data.stream().filter(model -> {
                     if (filters != null && !filters.isEmpty()) {
                         for (Predicate<T> filter : filters) {
@@ -74,6 +70,14 @@ public class TableTool<T extends TableToolModel> {
                     return true;
                 }).collect(Collectors.toList());
                 
+                if (headers != null) {
+                    headers.forEach(tableModel::addColumn);
+                } else {
+                    Map<String, Object> tableToolMap = data.get(0).toTableModel();
+                
+                    tableToolMap.keySet().forEach(tableModel::addColumn);
+                }
+                
                 filteredData.forEach((model) -> {
                     tableModel.addRow(model.toTableModel().values().toArray());
                 });
@@ -81,9 +85,13 @@ public class TableTool<T extends TableToolModel> {
                 if (afterLoads != null && !afterLoads.isEmpty()) {
                     afterLoads.forEach(e -> e.accept(filteredData));
                 }
-                
-                table.setModel(tableModel);
+            } else {
+                if (headers != null && !headers.isEmpty()) {
+                    headers.forEach(tableModel::addColumn);
+                }
             }
+            
+            table.setModel(tableModel);
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
             JOptionPane.showMessageDialog(table, "File anda crash", "Error", JOptionPane.ERROR_MESSAGE);
@@ -122,5 +130,13 @@ public class TableTool<T extends TableToolModel> {
 
     public void setAfterLoads(List<Consumer<List<T>>> afterLoads) {
         this.afterLoads = afterLoads;
+    }
+
+    public List<String> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(List<String> headers) {
+        this.headers = headers;
     }
 }

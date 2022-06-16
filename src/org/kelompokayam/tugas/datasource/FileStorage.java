@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -19,6 +20,14 @@ import java.util.function.Supplier;
 public class FileStorage<T> implements Storage<FileData<T>> {
     private File file;
     private Supplier<FileData<T>> writeSeeder;
+    
+    private Function<Object, T> deserializer;
+
+    public FileStorage() {
+        deserializer = (t) -> {
+            return (T) t;
+        };
+    }
 
     @Override
     public boolean initiate() throws Exception {
@@ -46,7 +55,7 @@ public class FileStorage<T> implements Storage<FileData<T>> {
         }
         
         try (ObjectOutputStream output = getObjectOutputStream()) {
-            output.writeUnshared(data.serialize());
+            output.writeObject(data.serialize());
             output.flush();
             
             return true;
@@ -58,7 +67,7 @@ public class FileStorage<T> implements Storage<FileData<T>> {
         if (!file.exists()) return FileData.Empty();
         
         try (ObjectInputStream input = getObjectInputStream()) {
-            return FileData.Deserialize((T) input.readUnshared());
+            return FileData.Deserialize(getDeserializer().apply(input.readObject()));
         }
     }
 
@@ -68,6 +77,14 @@ public class FileStorage<T> implements Storage<FileData<T>> {
 
     public void setWriteSeeder(Supplier<FileData<T>> writeSeeder) {
         this.writeSeeder = writeSeeder;
+    }
+
+    public Function<Object, T> getDeserializer() {
+        return deserializer;
+    }
+
+    public void setDeserializer(Function<Object, T> deserializer) {
+        this.deserializer = deserializer;
     }
 
     public File getFile() {
