@@ -8,13 +8,9 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.kelompokayam.tugas.Injection;
-import org.kelompokayam.tugas.model.User;
-import org.kelompokayam.tugas.controller.HomeController;
-import org.kelompokayam.tugas.controller.LoginController;
 import org.kelompokayam.tugas.model.Auth;
 
 /**
@@ -23,7 +19,6 @@ import org.kelompokayam.tugas.model.Auth;
  */
 public class HomeView extends javax.swing.JFrame {
     private Auth auth = Injection.Get(Auth.class);
-    private HomeController controller = Injection.Get(HomeController.class);
     private Map<JPanel, JLabel> sideButtons = new HashMap<>();
 
     /**

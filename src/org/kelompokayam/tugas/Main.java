@@ -6,13 +6,11 @@ package org.kelompokayam.tugas;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import org.kelompokayam.tugas.controller.HomeController;
 import org.kelompokayam.tugas.controller.InputAyamController;
 import org.kelompokayam.tugas.controller.KelolaKaryawanController;
 import org.kelompokayam.tugas.controller.LaporanAyamController;
 import org.kelompokayam.tugas.controller.LoginController;
 import org.kelompokayam.tugas.seeder.UserSeeder;
-import org.kelompokayam.tugas.view.KelolaKaryawanView;
 import org.kelompokayam.tugas.view.SplashView;
 
 /**
@@ -41,7 +39,6 @@ public class Main {
         Injection.Put(new UserSeeder()).call();
         
         Injection.Put(new LoginController());
-        Injection.Put(new HomeController());
         Injection.LazyPut(KelolaKaryawanController.class, () -> new KelolaKaryawanController());
         Injection.LazyPut(InputAyamController.class, () -> new InputAyamController());
         Injection.LazyPut(LaporanAyamController.class, () -> new LaporanAyamController());
