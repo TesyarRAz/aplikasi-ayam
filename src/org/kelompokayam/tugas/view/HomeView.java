@@ -414,6 +414,8 @@ public class HomeView extends javax.swing.JFrame {
         triggerSideButtons(btnKelolaKaryawan);
         
         changePage("kelola-karyawan");
+        
+        kelolaKaryawanView1.reload();
     }//GEN-LAST:event_btnKelolaKaryawanMouseClicked
 
     private void btnInputAyamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInputAyamMouseClicked
@@ -427,7 +429,7 @@ public class HomeView extends javax.swing.JFrame {
         
         changePage("laporan-ayam");
         
-        kelolaKaryawanView1.reload();
+        laporanAyamView2.reload();
     }//GEN-LAST:event_btnLaporanAyamMouseClicked
 
     private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked

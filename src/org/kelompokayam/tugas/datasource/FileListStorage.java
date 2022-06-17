@@ -52,6 +52,14 @@ public class FileListStorage<T> extends FileStorage<List<T>> {
         return write(fileData);
     }
     
+    public boolean removeIf(Predicate<T> filter) throws Exception {
+        FileData<List<T>> fileData = read();
+        
+        fileData.getData().removeIf(filter);
+        
+        return write(fileData);
+    }
+    
     public T find(Predicate<T> filter) throws Exception {
         return read().getData().stream().filter(filter).findFirst().orElse(null);
     }

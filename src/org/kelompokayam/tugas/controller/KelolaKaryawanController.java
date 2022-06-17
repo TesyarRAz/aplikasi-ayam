@@ -17,17 +17,18 @@ import org.kelompokayam.tugas.util.TableTool;
  * @author raz
  */
 public class KelolaKaryawanController {
+
     private final FileListStorage<User> fileStorage = new FileListStorage<>();
     private final TableTool<User> tableTool = new TableTool<>();
 
     public KelolaKaryawanController() {
         fileStorage.setFile(FileUtil.getFileByCurrentDir(User.FILE_NAME));
-        
+
         tableTool.setHeaders(Arrays.asList("Nama", "Username", "Jadwal"));
         tableTool.addFilter((model) -> {
             return !model.getRole().equalsIgnoreCase("admin");
         });
-        
+
         tableTool.setFileStorage(fileStorage);
     }
 
@@ -38,22 +39,22 @@ public class KelolaKaryawanController {
     public TableTool<User> getTableTool() {
         return tableTool;
     }
-    
+
     public boolean isExistsUsername(String username) throws Exception {
         return fileStorage.find(user -> user.getUsername().equalsIgnoreCase(username)) != null;
     }
-    
+
     public boolean tambah(String nama, String username, String password, String jadwal) throws Exception {
         Karyawan karyawan = new Karyawan();
         karyawan.setName(nama);
         karyawan.setUsername(username);
         karyawan.setPassword(CryptUtil.DefaultHash(password));
         karyawan.setJadwal(jadwal);
-        
+
         return fileStorage.add(karyawan);
     }
-    
+
     public boolean hapus(int index) throws Exception {
-        return fileStorage.remove(index);
+        return fileStorage.removeIf(user -> tableTool.getFilteredData().get(index).getUsername().equalsIgnoreCase(user.getUsername()));
     }
 }

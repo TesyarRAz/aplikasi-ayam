@@ -5,6 +5,7 @@
 package org.kelompokayam.tugas.controller;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import org.kelompokayam.tugas.datasource.FileListStorage;
 import org.kelompokayam.tugas.model.StatusAyam;
 import org.kelompokayam.tugas.util.FileUtil;
@@ -25,6 +26,7 @@ public class LaporanAyamController {
     public LaporanAyamController() {
         fileStorage.setFile(FileUtil.getFileByCurrentDir(StatusAyam.FILE_NAME));
         
+        tableTool.setHeaders(Arrays.asList("Tanggal", "Total Sehat", "Total Sakit", "Total Mati", "Total Baru"));
         tableTool.addFilter((model) -> {
             if (filterFrom != null && filterTo != null) {
                 return model.getTanggal().isAfter(filterFrom) && model.getTanggal().isBefore(filterTo);

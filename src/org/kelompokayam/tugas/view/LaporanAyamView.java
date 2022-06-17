@@ -37,13 +37,13 @@ public class LaporanAyamView extends javax.swing.JPanel {
                 StatusAyam maxMati = items.stream().max((a, b) -> a.getTotalMati() - b.getTotalMati()).orElse(null);
                 StatusAyam maxSakit = items.stream().max((a, b) -> a.getTotalSakit() - b.getTotalSakit()).orElse(null);
                 
-                if (maxMati != null) {
+                if (maxMati != null && maxMati.getTotalMati() > 0) {
                     lblMaxMatiDate.setText(maxMati.getTanggal().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + " / " + maxMati.getTotalMati());
                 } else {
                     lblMaxMatiDate.setText("-");
                 }
                 
-                if (maxSakit != null) {
+                if (maxSakit != null && maxMati.getTotalSakit() > 0) {
                     lblMaxSakitDate.setText(maxSakit.getTanggal().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + " / " + maxMati.getTotalSakit());
                 } else {
                     lblMaxSakitDate.setText("-");
@@ -517,6 +517,10 @@ public class LaporanAyamView extends javax.swing.JPanel {
         cTahunAkhir.setSelectedItem(date.getYear());
     }
 
+    public void reload() {
+        controller.getTableTool().load();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFilter;
     private javax.swing.JButton btnReload;

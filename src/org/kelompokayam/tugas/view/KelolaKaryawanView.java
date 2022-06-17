@@ -24,7 +24,7 @@ public class KelolaKaryawanView extends javax.swing.JPanel {
 
         if (controller != null) {
             controller.getTableTool().setTable(table);
-            controller.getTableTool().load();
+            reload();
         }
     }
 
@@ -414,7 +414,7 @@ public class KelolaKaryawanView extends javax.swing.JPanel {
         try {
             if (!controller.isExistsUsername(username)) {
                 if (controller.tambah(nama, username, password, jadwal)) {
-                    controller.getTableTool().load();
+                    reload();
 
                     txtNama.setText("");
                     txtUsername.setText("");
@@ -440,9 +440,9 @@ public class KelolaKaryawanView extends javax.swing.JPanel {
         if (index != -1) {
             if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(this, "Yakin ingin dihapus ?", "Konfirmasi", JOptionPane.YES_NO_OPTION)) {
                 try {
-                    controller.getTableTool().load();
-
                     controller.hapus(index);
+                    
+                    reload();
 
                     JOptionPane.showMessageDialog(this, "Berhasil menghapus karyawan");
                 } catch (Exception ex) {

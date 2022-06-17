@@ -28,6 +28,9 @@ public class TableTool<T extends TableToolModel> {
     private List<Consumer<List<T>>> afterLoads;
     private List<String> headers;
     
+    private List<T> filteredData;
+    private List<T> data;
+    
     public JTable getTable() {
         return table;
     }
@@ -48,7 +51,7 @@ public class TableTool<T extends TableToolModel> {
         try {
             FileData<List<T>> fileData = fileStorage.read();
             
-            List<T> data = fileData.getData();
+            data = fileData.getData();
             
             DefaultTableModel tableModel = new DefaultTableModel() {
                 @Override
@@ -58,7 +61,7 @@ public class TableTool<T extends TableToolModel> {
             };
             
             if (data != null && !data.isEmpty()) {
-                List<T> filteredData = data.stream().filter(model -> {
+                filteredData = data.stream().filter(model -> {
                     if (filters != null && !filters.isEmpty()) {
                         for (Predicate<T> filter : filters) {
                             if (!filter.test(model)) {
@@ -138,5 +141,13 @@ public class TableTool<T extends TableToolModel> {
 
     public void setHeaders(List<String> headers) {
         this.headers = headers;
+    }
+
+    public List<T> getFilteredData() {
+        return filteredData;
+    }
+
+    public List<T> getData() {
+        return data;
     }
 }

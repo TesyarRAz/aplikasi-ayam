@@ -191,6 +191,12 @@ public class InputAyamView extends javax.swing.JPanel {
         txtSehat.setBackground(new java.awt.Color(255, 255, 255));
         txtSehat.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
         txtSehat.setForeground(new java.awt.Color(0, 0, 0));
+        txtSehat.setText("0");
+        txtSehat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSehatKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -225,6 +231,12 @@ public class InputAyamView extends javax.swing.JPanel {
         txtSakit.setBackground(new java.awt.Color(255, 255, 255));
         txtSakit.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
         txtSakit.setForeground(new java.awt.Color(0, 0, 0));
+        txtSakit.setText("0");
+        txtSakit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSakitKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -259,6 +271,12 @@ public class InputAyamView extends javax.swing.JPanel {
         txtMati.setBackground(new java.awt.Color(255, 255, 255));
         txtMati.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
         txtMati.setForeground(new java.awt.Color(0, 0, 0));
+        txtMati.setText("0");
+        txtMati.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMatiKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -293,6 +311,12 @@ public class InputAyamView extends javax.swing.JPanel {
         txtBaru.setBackground(new java.awt.Color(255, 255, 255));
         txtBaru.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
         txtBaru.setForeground(new java.awt.Color(0, 0, 0));
+        txtBaru.setText("0");
+        txtBaru.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBaruKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -434,6 +458,30 @@ public class InputAyamView extends javax.swing.JPanel {
     private void btnSimpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpan1ActionPerformed
         cariStatus();
     }//GEN-LAST:event_btnSimpan1ActionPerformed
+
+    private void txtSehatKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSehatKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSehatKeyTyped
+
+    private void txtSakitKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSakitKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSakitKeyTyped
+
+    private void txtMatiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatiKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMatiKeyTyped
+
+    private void txtBaruKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBaruKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtBaruKeyTyped
 
     private void changeDate(LocalDate date) {
         DefaultComboBoxModel cTanggalModel = (DefaultComboBoxModel) cTanggal.getModel();
