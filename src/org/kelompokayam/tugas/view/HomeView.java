@@ -8,6 +8,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ public class HomeView extends javax.swing.JFrame {
     public HomeView() {
         initComponents();
         
+        sideButtons.put(btnDashboard, lblDashboard);
         sideButtons.put(btnKelolaKaryawan, lblKelolaKaryawan);
         sideButtons.put(btnInputAyam, lblInputAyam);
         sideButtons.put(btnLaporanAyam, lblLaporanAyam);
@@ -42,15 +44,19 @@ public class HomeView extends javax.swing.JFrame {
             
             if (auth.getUser().getRole().equalsIgnoreCase("admin")) {
                 lblJadwal.setVisible(false);
-                triggerSideButtons(btnKelolaKaryawan);
-                changePage("kelola-karyawan");
+                triggerSideButtons(btnDashboard);
+                changePage("dashboard");
             } else {
                 Karyawan karyawan = (Karyawan) auth.getUser();
                 
                 sidebarList.remove(btnKelolaKaryawan.getParent());
-                lblJadwal.setText("Jadwal Piket Anda : " + karyawan.getJadwal());
-                triggerSideButtons(btnInputAyam);
-                changePage("input-ayam");
+                lblJadwal.setText("Jadwal Piket Anda : " + karyawan.getJadwal().entrySet().stream()
+                        .filter(e -> e.getValue())
+                        .map(e -> e.getKey())
+                        .collect(Collectors.joining(","))
+                );
+                triggerSideButtons(btnDashboard);
+                changePage("dashboard");
             }
         }
     }
@@ -75,6 +81,9 @@ public class HomeView extends javax.swing.JFrame {
         lblProfile = new javax.swing.JLabel();
         lblJadwal = new javax.swing.JLabel();
         sidebarList = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        btnDashboard = new javax.swing.JPanel();
+        lblDashboard = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         btnKelolaKaryawan = new javax.swing.JPanel();
         lblKelolaKaryawan = new javax.swing.JLabel();
@@ -90,6 +99,7 @@ public class HomeView extends javax.swing.JFrame {
         kelolaKaryawanView1 = new org.kelompokayam.tugas.view.KelolaKaryawanView();
         inputAyamView2 = new org.kelompokayam.tugas.view.InputAyamView();
         laporanAyamView2 = new org.kelompokayam.tugas.view.LaporanAyamView();
+        dashboardView1 = new org.kelompokayam.tugas.view.DashboardView();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Aplikasi Peternakan Ayam");
@@ -154,6 +164,51 @@ public class HomeView extends javax.swing.JFrame {
 
         sidebarList.setBackground(new java.awt.Color(82, 79, 218));
         sidebarList.setLayout(new javax.swing.BoxLayout(sidebarList, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel8.setBackground(new java.awt.Color(82, 79, 218));
+
+        btnDashboard.setBackground(new java.awt.Color(82, 79, 218));
+        btnDashboard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDashboardMouseClicked(evt);
+            }
+        });
+
+        lblDashboard.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        lblDashboard.setForeground(new java.awt.Color(255, 255, 255));
+        lblDashboard.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDashboard.setText("Dashboard");
+
+        javax.swing.GroupLayout btnDashboardLayout = new javax.swing.GroupLayout(btnDashboard);
+        btnDashboard.setLayout(btnDashboardLayout);
+        btnDashboardLayout.setHorizontalGroup(
+            btnDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+        );
+        btnDashboardLayout.setVerticalGroup(
+            btnDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        sidebarList.add(jPanel8);
 
         jPanel5.setBackground(new java.awt.Color(82, 79, 218));
 
@@ -376,6 +431,7 @@ public class HomeView extends javax.swing.JFrame {
         container.add(kelolaKaryawanView1, "kelola-karyawan");
         container.add(inputAyamView2, "input-ayam");
         container.add(laporanAyamView2, "laporan-ayam");
+        container.add(dashboardView1, "dashboard");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -444,6 +500,14 @@ public class HomeView extends javax.swing.JFrame {
         new ChangePasswordView().setVisible(true);
     }//GEN-LAST:event_lblProfileMouseClicked
 
+    private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
+        triggerSideButtons(btnDashboard);
+        
+        changePage("dashboard");
+        
+        dashboardView1.reload();
+    }//GEN-LAST:event_btnDashboardMouseClicked
+
     private void triggerSideButtons(JPanel panel) {
         sideButtons.forEach((key, value) -> {
             if (key == panel) {
@@ -463,11 +527,13 @@ public class HomeView extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel btnDashboard;
     private javax.swing.JPanel btnInputAyam;
     private javax.swing.JPanel btnKelolaKaryawan;
     private javax.swing.JPanel btnLaporanAyam;
     private javax.swing.JPanel btnLogout;
     private javax.swing.JPanel container;
+    private org.kelompokayam.tugas.view.DashboardView dashboardView1;
     private org.kelompokayam.tugas.view.InputAyamView inputAyamView2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -478,10 +544,12 @@ public class HomeView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private org.kelompokayam.tugas.view.KelolaKaryawanView kelolaKaryawanView1;
     private org.kelompokayam.tugas.view.LaporanAyamView laporanAyamView2;
+    private javax.swing.JLabel lblDashboard;
     private javax.swing.JLabel lblInputAyam;
     private javax.swing.JLabel lblJadwal;
     private javax.swing.JLabel lblKelolaKaryawan;

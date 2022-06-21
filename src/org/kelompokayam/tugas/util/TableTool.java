@@ -4,7 +4,12 @@
  */
 package org.kelompokayam.tugas.util;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -12,6 +17,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JToolTip;
+import javax.swing.event.MouseInputListener;
 import javax.swing.table.DefaultTableModel;
 import org.kelompokayam.tugas.datasource.FileData;
 import org.kelompokayam.tugas.datasource.FileListStorage;
@@ -30,6 +37,8 @@ public class TableTool<T extends TableToolModel> {
     
     private List<T> filteredData;
     private List<T> data;
+    
+    private MouseListener oldMl;
     
     public JTable getTable() {
         return table;
@@ -62,34 +71,70 @@ public class TableTool<T extends TableToolModel> {
             
             if (data != null && !data.isEmpty()) {
                 filteredData = data.stream().filter(model -> {
-                    if (filters != null && !filters.isEmpty()) {
-                        for (Predicate<T> filter : filters) {
-                            if (!filter.test(model)) {
-                                return false;
-                            }
-                        }
+                    if (filters != null) {
+                        return filters.stream().allMatch(e -> e.test(model));
                     }
                     
                     return true;
                 }).collect(Collectors.toList());
                 
-                if (headers != null) {
-                    headers.forEach(tableModel::addColumn);
-                } else {
-                    Map<String, Object> tableToolMap = data.get(0).toTableModel();
+                Collection<String> headers = this.headers;
                 
-                    tableToolMap.keySet().forEach(tableModel::addColumn);
+                if (headers == null) {
+                    headers = data.get(0).toTableModel().keySet();
                 }
                 
-                filteredData.forEach((model) -> {
-                    tableModel.addRow(model.toTableModel().values().toArray());
+                table.removeMouseListener(oldMl);
+                
+                final Collection<String> cHeaders = headers;
+                table.addMouseListener(oldMl = new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent me) {
+                        int row = table.rowAtPoint(me.getPoint());
+                        
+                        cHeaders.stream().filter(e -> e.startsWith("_")).forEach(e -> {
+                            if (e.equalsIgnoreCase("_tooltip")) {
+                                T data = filteredData.get(row);
+                                
+                                if (data != null) {
+                                    table.setToolTipText(data.toTableModel().get(e).toString());
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent me) {}
+
+                    @Override
+                    public void mouseReleased(MouseEvent me) {}
+
+                    @Override
+                    public void mouseEntered(MouseEvent me) {}
+
+                    @Override
+                    public void mouseExited(MouseEvent me) {}
                 });
                 
-                if (afterLoads != null && !afterLoads.isEmpty()) {
+                headers.removeIf(e -> e.startsWith("_"));
+                
+                headers.forEach(tableModel::addColumn);
+                
+                final Collection<String> fHeaders = headers;
+                
+                filteredData.stream()
+                        .map(model -> model.toTableModel().entrySet().stream()
+                            .filter(e -> fHeaders.contains(e.getKey()))
+                            .map(e -> e.getValue())
+                            .toArray()
+                        )
+                        .forEach(tableModel::addRow);
+                
+                if (afterLoads != null) {
                     afterLoads.forEach(e -> e.accept(filteredData));
                 }
             } else {
-                if (headers != null && !headers.isEmpty()) {
+                if (headers != null) {
                     headers.forEach(tableModel::addColumn);
                 }
             }

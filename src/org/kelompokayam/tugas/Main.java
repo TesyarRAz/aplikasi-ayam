@@ -7,6 +7,7 @@ package org.kelompokayam.tugas;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import org.kelompokayam.tugas.controller.ChangePasswordController;
+import org.kelompokayam.tugas.controller.DashboardController;
 import org.kelompokayam.tugas.controller.InputAyamController;
 import org.kelompokayam.tugas.controller.KelolaKaryawanController;
 import org.kelompokayam.tugas.controller.LaporanAyamController;
@@ -44,6 +45,7 @@ public class Main {
         Injection.LazyPut(InputAyamController.class, () -> new InputAyamController());
         Injection.LazyPut(LaporanAyamController.class, () -> new LaporanAyamController());
         Injection.Put(new ChangePasswordController());
+        Injection.Put(new DashboardController());
         
         new SplashView().setVisible(true);
     }
