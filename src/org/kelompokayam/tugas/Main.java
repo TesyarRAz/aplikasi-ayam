@@ -27,7 +27,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         
-        String[] recommendedLookAndFeel = new String[] {"Windows", "Nimbus"};
+        String[] recommendedLookAndFeel = new String[] {"Nimbus"};
         
         // Set Look And Feel
         for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
