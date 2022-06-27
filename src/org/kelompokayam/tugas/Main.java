@@ -29,6 +29,7 @@ public class Main {
         
         String[] recommendedLookAndFeel = new String[] {"Windows", "Nimbus"};
         
+        // Set Look And Feel
         for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
             for (String lookAndFeel : recommendedLookAndFeel) {
                 if (lookAndFeel.equalsIgnoreCase(info.getName())) {
@@ -38,6 +39,7 @@ public class Main {
             }
         }
         
+        // Dependency Injection
         Injection.Put(new UserSeeder()).call();
         
         Injection.Put(new LoginController());
@@ -47,6 +49,7 @@ public class Main {
         Injection.Put(new ChangePasswordController());
         Injection.Put(new DashboardController());
         
+        // Show Splash View Saat Pertama Kali Dijalankan
         new SplashView().setVisible(true);
     }
     

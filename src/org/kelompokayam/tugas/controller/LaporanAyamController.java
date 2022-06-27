@@ -26,7 +26,7 @@ public class LaporanAyamController {
     public LaporanAyamController() {
         fileStorage.setFile(FileUtil.getFileByCurrentDir(StatusAyam.FILE_NAME));
         
-        tableTool.setHeaders(Arrays.asList("Tanggal", "Total Sehat", "Total Sakit", "Total Mati", "Total Baru"));
+        tableTool.setHeaders(Arrays.asList("Tanggal", "Total Sehat", "Total Sakit", "Total Mati", "Total Baru", "Total Dijual"));
         tableTool.addFilter((model) -> {
             if (filterFrom != null && filterTo != null) {
                 return model.getTanggal().isAfter(filterFrom) && model.getTanggal().isBefore(filterTo);

@@ -26,6 +26,7 @@ public class StatusAyam implements TableToolModel, Serializable {
     private int totalSakit;
     private int totalMati;
     private int totalBaru;
+    private int totalJual;
 
     public LocalDate getTanggal() {
         return tanggal;
@@ -67,6 +68,14 @@ public class StatusAyam implements TableToolModel, Serializable {
         this.totalBaru = totalBaru;
     }
 
+    public int getTotalJual() {
+        return totalJual;
+    }
+
+    public void setTotalJual(int totalJual) {
+        this.totalJual = totalJual;
+    }
+
     @Override
     public Map<String, Object> toTableModel() {
         Map<String, Object> map = new LinkedHashMap<>();
@@ -76,6 +85,7 @@ public class StatusAyam implements TableToolModel, Serializable {
         map.put("Total Sakit", getTotalSakit());
         map.put("Total Mati", getTotalMati());
         map.put("Total Baru", getTotalBaru());
+        map.put("Total Dijual", getTotalJual());
         
         return map;
     }

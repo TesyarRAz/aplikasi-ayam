@@ -70,6 +70,9 @@ public class InputAyamView extends javax.swing.JPanel {
         jPanel6 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         txtBaru = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        txtJual = new javax.swing.JTextField();
         btnSimpan = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -341,6 +344,46 @@ public class InputAyamView extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel15.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("Jumlah Dijual");
+
+        txtJual.setBackground(new java.awt.Color(255, 255, 255));
+        txtJual.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
+        txtJual.setForeground(new java.awt.Color(0, 0, 0));
+        txtJual.setText("0");
+        txtJual.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtJualKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtJual))
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtJual, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -352,7 +395,8 @@ public class InputAyamView extends javax.swing.JPanel {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -368,7 +412,9 @@ public class InputAyamView extends javax.swing.JPanel {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnSimpan.setBackground(new java.awt.Color(82, 79, 218));
@@ -414,14 +460,16 @@ public class InputAyamView extends javax.swing.JPanel {
             int jumlahSakit = Integer.parseInt(txtSakit.getText().trim());
             int jumlahMati = Integer.parseInt(txtMati.getText().trim());
             int jumlahBaru = Integer.parseInt(txtBaru.getText().trim());
+            int jumlahJual = Integer.parseInt(txtJual.getText().trim());
 
             LocalDate date = getDate();
             
-            if (controller.simpan(date, jumlahSehat, jumlahSakit, jumlahMati, jumlahBaru)) {
+            if (controller.simpan(date, jumlahSehat, jumlahSakit, jumlahMati, jumlahBaru, jumlahJual)) {
                 txtMati.setText("0");
                 txtSakit.setText("0");
                 txtSehat.setText("0");
                 txtBaru.setText("0");
+                txtJual.setText("0");
                 
                 JOptionPane.showMessageDialog(this, "Berhasil menyimpan data");
             } else {
@@ -483,6 +531,12 @@ public class InputAyamView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtBaruKeyTyped
 
+    private void txtJualKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJualKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtJualKeyTyped
+
     private void changeDate(LocalDate date) {
         DefaultComboBoxModel cTanggalModel = (DefaultComboBoxModel) cTanggal.getModel();
         cTanggalModel.removeAllElements();
@@ -507,6 +561,7 @@ public class InputAyamView extends javax.swing.JPanel {
                 txtSakit.setText(String.valueOf(statusAyam.getTotalSakit()));
                 txtMati.setText(String.valueOf(statusAyam.getTotalMati()));
                 txtBaru.setText(String.valueOf(statusAyam.getTotalBaru()));
+                txtJual.setText(String.valueOf(statusAyam.getTotalJual()));
             }
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
@@ -532,6 +587,7 @@ public class InputAyamView extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -540,8 +596,10 @@ public class InputAyamView extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField txtBaru;
+    private javax.swing.JTextField txtJual;
     private javax.swing.JTextField txtMati;
     private javax.swing.JTextField txtSakit;
     private javax.swing.JTextField txtSehat;

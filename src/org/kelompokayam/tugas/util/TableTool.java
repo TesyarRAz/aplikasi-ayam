@@ -33,6 +33,7 @@ public class TableTool<T extends TableToolModel> {
     private FileListStorage<T> fileStorage;
     private List<Predicate<T>> filters;
     private List<Consumer<List<T>>> afterLoads;
+    private List<Consumer<List<T>>> afterLoadsUnfiltered;
     private List<String> headers;
     
     private List<T> filteredData;
@@ -130,6 +131,10 @@ public class TableTool<T extends TableToolModel> {
                         )
                         .forEach(tableModel::addRow);
                 
+                if (afterLoadsUnfiltered != null) {
+                    afterLoadsUnfiltered.forEach(e -> e.accept(data));
+                }
+                
                 if (afterLoads != null) {
                     afterLoads.forEach(e -> e.accept(filteredData));
                 }
@@ -163,6 +168,14 @@ public class TableTool<T extends TableToolModel> {
         
         afterLoads.add(runner);
     }
+    
+    public void addAfterLoadUnfiltered(Consumer<List<T>> runner) {
+        if (afterLoadsUnfiltered == null) {
+            afterLoadsUnfiltered = new ArrayList<>();
+        }
+        
+        afterLoadsUnfiltered.add(runner);
+    }
 
     public List<Predicate<T>> getFilters() {
         return filters;
@@ -179,6 +192,16 @@ public class TableTool<T extends TableToolModel> {
     public void setAfterLoads(List<Consumer<List<T>>> afterLoads) {
         this.afterLoads = afterLoads;
     }
+
+    public List<Consumer<List<T>>> getAfterLoadsUnfiltered() {
+        return afterLoadsUnfiltered;
+    }
+
+    public void setAfterLoadsUnfiltered(List<Consumer<List<T>>> afterLoadsUnfiltered) {
+        this.afterLoadsUnfiltered = afterLoadsUnfiltered;
+    }
+    
+    
 
     public List<String> getHeaders() {
         return headers;
